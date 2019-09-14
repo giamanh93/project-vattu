@@ -1,0 +1,86 @@
+<div class="site-content" id="site-content">
+    <section class="bg-white pt-3 pb-3">
+        <div class="container-fluid">
+            <div class="pl-2 pr-2">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="pane-one" role="tabpanel" aria-labelledby="tab-one">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <button class="btn btn-primary smalltext" type="button" routerLink="/taodonhang" [queryParams]="{order_id: order_id}"
+                                    style="color: #fff; margin-right: 20px">
+                                    Sửa Thông Tin Hóa Đơn</button>
+                                <button
+                                    class="btn btn-danger smalltext" (click)="removeOrder(detailOrder)" type="button"><span class="oi oi-pencil"></span>
+                                    Xóa</button>
+                            </div>
+                        </div>
+                        <section>
+                            <div class="pt-2 pb-2 pr-3 pl-3  bg-gray-light mb-2">
+                                <strong>Thông Tin Khách Hàng</strong>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Tên Khách Hàng</label>
+                                        <p>{{detailOrder?.customer_name}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Số Điện Thoại</label>
+                                        <p>{{detailOrder?.customer_phone}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Địa Chỉ</label>
+                                        <p>{{detailOrder?.customer_address}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Mô Tả</label>
+                                        <p>{{detailOrder?.customer_description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="pt-2 pb-2 pr-3 pl-3  bg-gray-light mb-2">
+                                <strong>Thông Tin Sản Phẩm Mua</strong>
+                            </div>
+                            <div class="row" *ngFor="let order of detailOrder?.items; let i=index">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Tên Sản Phẩm : {{i + 1}}</label>
+                                        <p>{{order?.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Đơn Giá</label>
+                                        <p>{{order?.dongia | number}}VND</p>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Số Lượng</label>
+                                        <p>{{order?.soluong}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Thành Tiền</label>
+                                        <p>{{order?.thanhtien | number}}VND</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="pt-2 pb-2 pr-3 pl-3  bg-gray-light mb-2">
+                                <strong>Tổng tiền: {{detailOrder?.total | number}}VND</strong>
+                            </div>
+                        </section>
+                    </div>

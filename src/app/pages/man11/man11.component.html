@@ -1,0 +1,34 @@
+<section>
+    <div class="container-fluid">
+        <div routerLink="/taodonhang" class="d-flex justify-content-between align-items-center pl-2 pr-2 mb-3 float-right">
+                <div class="d-flex justify-content-center pd-10">
+                        <a routerLink="/taodonhang" style="align-items: center" class="btn btn-primary">
+                        <span class="icon-plus-circled">Thêm Đơn Hàng</span></a>
+                    </div>
+        </div>
+            <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tên Khách Hàng</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Sản Phẩm Mua</th>
+                        <th scope="col">Tổng Tiền</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listOrders?.list; let i=index" routerLink="/chitiethoadon" [queryParams]="{order_id: item?._id}" >
+                        <td scope="row">{{i + 1}}</td>
+                        <td>{{item?.customer_name}}</td>
+                        <td>{{item?.customer_phone}}</td>
+                        <td>
+                          <p *ngFor="let product of item?.items">
+                            <span style="color: #5d6a77">{{product?.name}}</span>: {{product?.dongia | number}} * {{product?.soluong}} = {{product?.thanhtien | number}}VND <br>
+                          </p>
+                        </td>
+                        <td>{{item?.total | number}}VND</td>
+                      </tr>
+                    </tbody>
+                  </table>
+    </div>
+</section>

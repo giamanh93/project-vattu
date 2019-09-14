@@ -1,0 +1,11 @@
+.nav-link:hover{
+   
+}
+::ng-deep {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .sidebar-nav .nav-item .nav-link.active .icon {
+            background: none !important;
+            color:#0056B0 !important;
+        }
+     }
+}

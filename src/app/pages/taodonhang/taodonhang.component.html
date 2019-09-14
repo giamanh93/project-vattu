@@ -1,0 +1,83 @@
+<div class="pt-4 pd-4">
+    <form [formGroup]="formProduct">
+        <div class="container-fuild">
+            <div class="pl-2 pr-2">
+                <div class="form-group">
+                    <label for=""><strong>NHẬP ĐƠN HÀNG</strong></label>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for=""><strong>Tên Khách Hàng</strong></label>
+                            <input [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selectedItem($event)" [inputFormatter]="formatter" type="text" formControlName="customer_name" id="" class="form-control w-100">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for=""><strong>Địa Chỉ</strong></label>
+                            <input disabled="disabled" type="text" formControlName="customer_address" id="" class="form-control w-100">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <div class="form-group">
+                                <label for=""><strong>Số Điện Thoại</strong></label>
+                                <input disabled="disabled" type="text" formControlName="customer_phone" id="" class="form-control w-100">
+                            </div>
+                        </div>
+                </div>
+                <div formArrayName="items" *ngFor="let item of formProduct.get('items').controls; let i= index">
+                            <div class="row" [formGroupName]="i">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for=""><strong>Mã Sản Phẩm</strong></label>
+                                            <input [ngbTypeahead]="searchProduct" (selectItem)="selectedProduct($event, i)" [inputFormatter]="formatterProduct" [resultFormatter]="formatterProduct" type="text" formControlName="name" id="" class="form-control w-100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for=""><strong>Đơn Giá</strong></label>
+                                            <input type="text" (change)="calculatorProduct(i, item.get('dongia').value, item.get('soluong').value)" formControlName="dongia" id="" class="form-control w-100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for=""><strong>Số Lượng</strong></label>
+                                            <input type="text" (change)="calculatorProduct(i, item.get('dongia').value, item.get('soluong').value)" formControlName="soluong" id="" class="form-control w-100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for=""><strong>Thành Tiền</strong></label>
+                                            <input type="text" formControlName="thanhtien" disabled="disabled" id="" class="form-control w-100">
+                                        </div>
+                                    </div>
+                                    <div *ngIf="formProduct.get('items').controls.length > 1" class="col-md-1 d-flex align-items-center pt-1">
+                                            <button (click)="deleteProduct(i, item.get('_id').value)" class="btn btn-danger">DELETE</button>
+                                    </div>
+                                </div>
+                </div>
+                <div class="text-left">
+                    <a (click)="addProduct()" href="javascript:void(0);"><span class="pd-icon-plus-circle"  style="top: 2px;font-size: 14px"></span>&nbsp;thêm
+                        sản
+                        phẩm</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group" style="width: 700px;">
+                            <label><strong>Mô Tả</strong></label>
+                            <textarea formControlName="customer_description" cols="1" rows="3" maxlength="500"
+                              class="form-control" style="max-width: 540px;"></textarea>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="float-action-archor"></div>
+        <div class="container-fluid float-action-section">
+            <div class="p-2 mt-2 pb-3 text-right">
+                <button type="button" (click)="submitForm()" class="btn btn-primary pt-2-5 pb-2-5 font-weight-bold"
+                    style="min-width: 160px">LƯU</button>
+            </div>
+        </div>
+    </form>
+</div>
