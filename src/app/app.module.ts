@@ -20,6 +20,7 @@ import { Configuration } from './app.constants';
 import { TaosanphamComponent } from './pages/taosanpham/taosanpham.component';
 import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
 import { CurrencyDirective } from './core/directive/currency.directive';
+import { CurrencyPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { CurrencyDirective } from './core/directive/currency.directive';
     HttpClientModule,
   ],
   entryComponents: [ModalComponent],
-  providers: [Configuration],
+  providers: [Configuration, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

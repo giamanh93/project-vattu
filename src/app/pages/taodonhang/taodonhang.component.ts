@@ -5,6 +5,7 @@ import { DataService } from 'src/app/core/services';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 declare var require: any
 var numeral = require('numeral');
 
@@ -30,7 +31,8 @@ export class TaodonhangComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private currencyPipe: CurrencyPipe
   ) {
     this.removeItem = []
   }
@@ -71,6 +73,10 @@ export class TaodonhangComponent implements OnInit {
                 this.formatterProduct(element1)
                 element1.name = element.name;
               }
+             setTimeout(() => {
+              this.t.controls[i].get('dongia').setValue(numeral(element1.dongia).format('0,0'))
+              this.t.controls[i].get('thanhtien').setValue(numeral(element1.thanhtien).format('0,0'))
+             }, 50);
             });
           });
 
@@ -107,11 +113,11 @@ export class TaodonhangComponent implements OnInit {
     this.formProduct.value.items.forEach((element, i) => {
       items.push({
         production_id: element.name._id,
-        dongia: element.dongia,
+        dongia: numeral(element.dongia).value(),
         soluong: element.soluong,
-        thanhtien: element.thanhtien,
+        thanhtien: numeral(element.thanhtien).value(),
       })
-      tongtien += parseInt(this.formProduct.value.items[i].thanhtien)
+      tongtien += parseInt(numeral(this.formProduct.value.items[i].thanhtien).value())
     });
     let paramCustomer = {
       customer_id: this.formProduct.value.customer_name._id ? this.formProduct.value.customer_name._id : this.formProduct.value._id,
@@ -137,9 +143,9 @@ export class TaodonhangComponent implements OnInit {
       this.formProduct.value.items.forEach(e => {
         let param_update = {
           production_id: e.name._id ? e.name._id : e.production_id,
-          dongia: e.dongia,
+          dongia: numeral(e.dongia).value(),
           soluong: e.soluong,
-          thanhtien: e.thanhtien,
+          thanhtien: numeral(e.thanhtien).value(),
           order_id: this.order_id
         }
         if (e._id) {
@@ -212,9 +218,10 @@ export class TaodonhangComponent implements OnInit {
   }
 
   calculatorProduct(i, dongia, soluong) {
+      this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
     if (dongia && soluong) {
-      let total = dongia * soluong;
-      this.t.controls[i].get('thanhtien').setValue(total)
+      let total = numeral(dongia).value() * soluong;
+      this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
     }
   }
 
