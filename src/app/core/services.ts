@@ -84,6 +84,9 @@ export class DataService {
     public infoUser<T>(): Observable<T> {
         return this.http.get<T>(this.actionUrl + 'user/info');
     }
+    public infologout<T>(): Observable<T> {
+        return this.http.get<T>(this.actionUrl + '/user/logout');
+    }
     public login<T>(params): Observable<T> {
         return this.http.post<T>(this.actionUrl + 'user/login', params);
     }
