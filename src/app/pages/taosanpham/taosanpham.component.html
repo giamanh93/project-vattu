@@ -1,32 +1,33 @@
 <section>
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center pl-2 pr-2 mb-3 float-right">
-                <div class="d-flex justify-content-center pd-10">
-                    <a (click)="showModalCreateProduction()" style="align-items: center; color: #fff" class="btn btn-primary">
-                        <span class="icon-plus-circled">Thêm Sản Phẩm</span></a>
-                </div>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center pl-2 pr-2 mb-3 float-right">
+            <div class="d-flex justify-content-center pd-10">
+                <a (click)="showModalCreateProduction()" style="align-items: center; color: #fff" class="btn btn-primary">
+                    <span class="icon-plus-circled">Thêm Sản Phẩm</span></a>
             </div>
-    
-            <table class="table datatable table-hover">
-                <thead>
-                    <tr class="row">
-                        <th class="col-md-2" scope="col">#</th>
-                        <th class="col-md-4" scope="col">Tên sản phâme</th>
-                        <th class="col-md-4" scope="col">Mã Sản Phẩm</th>
-                        <th class="col-md-2" scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="row" *ngFor="let item of listProduction?.list; let i= index">
-                        <th class="col-md-2" scope="row">{{i + 1}}</th>
-                        <td class="col-md-4">{{item?.name}}</td>
-                        <td class="col-md-4">{{item?.production_code}}</td>
-                        <td class="col-md-2">
-                                <button style="margin-right: 15px" type="button" class="btn btn-primary" (click)="showModalCreateProduction(i,item?._id)">Sửa</button>
-                                <button type="button" class="btn btn-danger" (click)="onDelete(item?._id)">Xóa</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-    </section>
+
+        <table class="table datatable table-hover">
+            <thead>
+                <tr class="row">
+                    <th class="col-md-2" scope="col">#</th>
+                    <th class="col-md-4" scope="col">Tên sản phâme</th>
+                    <th class="col-md-4" scope="col">Mã Sản Phẩm</th>
+                    <th class="col-md-2" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row" *ngFor="let item of listProduction?.list; let i= index">
+                    <th class="col-md-2" scope="row">{{i + 1}}</th>
+                    <td class="col-md-4">{{item?.name}}</td>
+                    <td class="col-md-4">{{item?.production_code}}</td>
+                    <td class="col-md-2">
+                        <button style="margin-right: 15px" type="button" class="btn btn-primary" (click)="showModalCreateProduction(i,item?._id)">Sửa</button>
+                        <button type="button" class="btn btn-danger" (click)="onDelete(item?._id)">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <ngb-pagination [(page)]="page" [pageSize]="2" [collectionSize]="100"></ngb-pagination> -->
+    </div>
+</section>

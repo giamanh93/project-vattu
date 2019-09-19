@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class TaosanphamComponent implements OnInit {
   formProduction: FormGroup;
   listProduction: any;
+  page:any = 3
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,

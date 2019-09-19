@@ -6,6 +6,16 @@
                         <span class="icon-plus-circled">Thêm Đơn Hàng</span></a>
                     </div>
         </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+              <div class="input-button-group icon-inside icon-left">
+                  <button type="submit" class="btn btn-none btn-icon"><span
+                          class="pd-icon-search"></span></button>
+                  <input type="text" (change)="onChangeValueText($event)" class="form-control"
+                       placeholder="Tìm kiếm đơn hàng theo số điện thoại khách hàng">
+              </div>
+          </div>
+      </div>
             <table class="table">
                     <thead>
                       <tr>

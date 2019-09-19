@@ -11,6 +11,7 @@ declare var $:any
 export class Man11Component implements OnInit {
   listOrders: any;
   listProduction: any;
+  hideMenuTopLeft: any
   constructor(
     private router: Router,
     private meta: Meta,
@@ -19,27 +20,42 @@ export class Man11Component implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getListProduction();
-    this.getListOrder();
-   
+    this.dataService.infoUser().subscribe((res: any) => {
+      if(res.error  == 0) {
+        console.log(res)
+
+          return;
+       //  localStorage.setItem("hideMenuTopLeft", 'true')
+         // this.router.navigate(["/home"])
+      }else {
+        localStorage.removeItem('hideMenuTopLeft')
+      }
+    })
+    this.hideMenuTopLeft = localStorage.getItem("hideMenuTopLeft")
+    if(this.hideMenuTopLeft == 'true') {
+      this.getListProduction();
+      this.getListOrder(null);
+    }
   }
 
-  getListOrder() {
+  getListOrder(key) {
     this.dataService
-      .listOrder<any[]>()
+      .listOrder<any[]>(key)
       .subscribe((data: any[]) => this.listOrders = data,
         error => () => {
         },
         () => {
-          this.listOrders.list.forEach(element => {
-            element.items.forEach(item => {
-              this.listProduction.list.forEach(product => {
-                if(item.production_id === product._id) {
-                  item.name =product.name
-                }
+          if(this.listOrders && this.listOrders.length > 0) {
+            this.listOrders.list.forEach(element => {
+              element.items.forEach(item => {
+                this.listProduction.list.forEach(product => {
+                  if(item.production_id === product._id) {
+                    item.name =product.name
+                  }
+                });
               });
             });
-          });
+          }
         });
   }
   getListProduction() {
@@ -51,5 +67,9 @@ export class Man11Component implements OnInit {
             () => {
             });
       
+  }
+  onChangeValueText(event) {
+    const key = event.target.value
+    this.getListOrder(key)
   }
 }

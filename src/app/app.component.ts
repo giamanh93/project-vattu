@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +9,26 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'quanlyvattu';
-  hideMenuTopLeft: boolean
+  hideMenuTopLeft: any
   constructor(
-    private router: Router
+    private router: Router,
+    private dataService: DataService,
   ) {
       this.hideMenuTopLeft = true
   }
   ngOnInit() {
-    if(this.router.url == '/login' || window.location.pathname == '/login') {
-      this.hideMenuTopLeft = true
-    }else {
-      console.log("dddd")
-      this.hideMenuTopLeft = false
-    }
+    this.hideMenuTopLeft = localStorage.getItem("hideMenuTopLeft")
+
+    // localStorage.getItem()
+    // this.dataService.infoUser().subscribe((res: any) => {
+    //   console.log(res)
+    //   if(res.error == 0) {
+    //     console.log("dddddddd")
+    //     this.hideMenuTopLeft = false
+    //   }else {
+    //     this.hideMenuTopLeft = true
+    //     this.router.navigate(["/login"])
+    //   }
+    // })
   }
 }

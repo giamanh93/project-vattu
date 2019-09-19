@@ -40,7 +40,6 @@ export class DataService {
     }
     public deleteProduction<T>(id: string): Observable<T> {
         return this.http.delete<T>(this.actionUrl + 'production-type/' + id);
-
     }
 
     public infoOrder<T>(id): Observable<T> {
@@ -49,8 +48,8 @@ export class DataService {
     public addOrder<T>(params): Observable<T> {
         return this.http.post<T>(this.actionUrl + 'order', params);
     }
-    public listOrder<T>(): Observable<T> {
-        return this.http.get<T>(this.actionUrl + 'order');
+    public listOrder<T>(key: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl + 'order' + `?key=${key ? key : null}`);
     }
     public updateOrder<T>(id: string, params: any): Observable<T> {
         return this.http
@@ -79,6 +78,12 @@ export class DataService {
     public async deleteItems<T>(id: string){
         return await this.http.delete<T>(this.actionUrl + 'item/' + id).toPromise()
     };
+    public infoUser<T>(): Observable<T> {
+        return this.http.get<T>(this.actionUrl + 'user/info');
+    }
+    public login<T>(params): Observable<T> {
+        return this.http.post<T>(this.actionUrl + 'user/login', params);
+    }
 
 }
 
@@ -90,7 +95,7 @@ export class DataService {
         req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
     }
 
-    req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
+    // req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
     return next.handle(req);
 }
 }
