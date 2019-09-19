@@ -26,7 +26,6 @@ export class TaodonhangComponent implements OnInit {
   public model: any;
   removeList: any
   removeItem: any[]
-
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,

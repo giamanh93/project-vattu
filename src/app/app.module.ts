@@ -21,8 +21,6 @@ import { TaosanphamComponent } from './pages/taosanpham/taosanpham.component';
 import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
 import { CurrencyDirective } from './core/directive/currency.directive';
 import { CurrencyPipe } from '@angular/common';
-import { ErrorInterceptor } from './core/helper/error.intercepter';
-import { AppHttpInterceptor } from './core/helper/AppHttpInterceptor';
 
 @NgModule({
   declarations: [
@@ -53,10 +51,7 @@ import { AppHttpInterceptor } from './core/helper/AppHttpInterceptor';
   ],
   entryComponents: [ModalComponent],
   providers: [Configuration, CurrencyPipe,
-    {
-      provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true
-    },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

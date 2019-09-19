@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   }
   onSubmit() {
    this.dataService.login(this.formLogin.value).subscribe((res: any) => {
-     console.log(res)
      if(res.error  == 0) {
         this.router.navigate(["/home"])
      }else {
