@@ -20,22 +20,8 @@ export class Man11Component implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.dataService.infoUser().subscribe((res: any) => {
-      if(res.error  == 0) {
-        console.log(res)
-
-          return;
-       //  localStorage.setItem("hideMenuTopLeft", 'true')
-         // this.router.navigate(["/home"])
-      }else {
-        localStorage.removeItem('hideMenuTopLeft')
-      }
-    })
-    this.hideMenuTopLeft = localStorage.getItem("hideMenuTopLeft")
-    if(this.hideMenuTopLeft == 'true') {
-      this.getListProduction();
+    this.getListProduction();
       this.getListOrder(null);
-    }
   }
 
   getListOrder(key) {

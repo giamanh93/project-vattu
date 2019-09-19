@@ -15,12 +15,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerInfoComponent } from './pages/customer-info/customer-info.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './pages/modal/modal.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Configuration } from './app.constants';
 import { TaosanphamComponent } from './pages/taosanpham/taosanpham.component';
 import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
 import { CurrencyDirective } from './core/directive/currency.directive';
 import { CurrencyPipe } from '@angular/common';
+import { ErrorInterceptor } from './core/helper/error.intercepter';
+import { AppHttpInterceptor } from './core/helper/AppHttpInterceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,11 @@ import { CurrencyPipe } from '@angular/common';
     HttpClientModule,
   ],
   entryComponents: [ModalComponent],
-  providers: [Configuration, CurrencyPipe],
+  providers: [Configuration, CurrencyPipe,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

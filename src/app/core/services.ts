@@ -48,6 +48,9 @@ export class DataService {
     public addOrder<T>(params): Observable<T> {
         return this.http.post<T>(this.actionUrl + 'order', params);
     }
+    // public listOrder<T>(key: string): Observable<T> {
+    //     return this.http.get<T>(this.actionUrl + 'order' + `?key=${key ? key : null}`);
+    // }
     public listOrder<T>(key: string): Observable<T> {
         return this.http.get<T>(this.actionUrl + 'order' + `?key=${key ? key : null}`);
     }
