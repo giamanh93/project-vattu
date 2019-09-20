@@ -76,7 +76,10 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><strong>Ngày làm hóa đơn</strong></label><br>
-                            <input type="text" formControlName="start_date" disabled="disabled" [(ngModel)]="startDate" class="form-control w-100" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"/>
+                            <div class="input-group-append">
+                            <input type="text" formControlName="start_date" readonly="true" [(ngModel)]="startDate" class="form-control w-70" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"/>
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                              </div>
                           </div>
                     </div>
                 </div>
