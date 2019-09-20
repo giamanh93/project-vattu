@@ -9,7 +9,10 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for=""><strong>Tên Khách Hàng</strong></label>
-                            <input [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selectedItem($event)" [inputFormatter]="formatter" type="text" formControlName="customer_name" id="" class="form-control w-100">
+                            <input [ngClass]="{'is-invalid': submitted &&  f.customer_name?.errors}" [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selectedItem($event)" [inputFormatter]="formatter" type="text" formControlName="customer_name" id="" class="form-control w-100">
+                            <div *ngIf="submitted && f.customer_name?.errors?.Required" class="invalid-feedback">
+                                <div *ngIf="f.customer_name?.errors?.Required">開始希望日を入力してください</div>
+                              </div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -31,6 +34,7 @@
                                         <div class="form-group">
                                             <label for=""><strong>Mã Sản Phẩm</strong></label>
                                             <input [ngbTypeahead]="searchProduct" (selectItem)="selectedProduct($event, i)" [inputFormatter]="formatterProduct" [resultFormatter]="formatterProduct" type="text" formControlName="name" id="" class="form-control w-100">
+                                            
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -62,16 +66,27 @@
                         phẩm</a>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group" style="width: 700px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label><strong>Mô Tả</strong></label>
                             <textarea formControlName="customer_description" cols="1" rows="3" maxlength="500"
                               class="form-control" style="max-width: 540px;"></textarea>
                           </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><strong>Ngày làm hóa đơn</strong></label><br>
+                            <input type="text" formControlName="start_date" disabled="disabled" [(ngModel)]="startDate" class="form-control w-100" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"/>
+                          </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <p *ngIf ="formProduct.invalid && submited">
+            <ngb-alert class="alert-custom">
+              Thông tin đơn hàng sai!
+            </ngb-alert>
+          </p>
         <div class="float-action-archor"></div>
         <div class="container-fluid float-action-section">
             <div class="p-2 mt-2 pb-3 text-right">

@@ -23,6 +23,7 @@
                         <th scope="col">Tên Khách Hàng</th>
                         <th scope="col">Số điện thoại</th>
                         <th scope="col">Sản Phẩm Mua</th>
+                        <th scope="col">Ngày Bán</th>
                         <th scope="col">Tổng Tiền</th>
                       </tr>
                     </thead>
@@ -36,6 +37,7 @@
                             <span style="color: #5d6a77">{{product?.name}}</span>: {{product?.dongia | number}} * {{product?.soluong}} = {{product?.thanhtien | number}}VND <br>
                           </p>
                         </td>
+                        <td>{{item?.start_date | date: 'yyyy/MM/dd'}}</td>
                         <td>{{item?.total | number}}VND</td>
                       </tr>
                     </tbody>

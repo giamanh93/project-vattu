@@ -39,10 +39,16 @@
                                         <p>{{detailOrder?.customer_address}}</p>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <label class="text-secondary smalltext mb-0 font-weight-bold">Mô Tả</label>
                                         <p>{{detailOrder?.customer_description}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label class="text-secondary smalltext mb-0 font-weight-bold">Ngày Bán</label>
+                                        <p>{{detailOrder?.start_date | date: 'yyyy/MM/dd'}}</p>
                                     </div>
                                 </div>
                             </div>

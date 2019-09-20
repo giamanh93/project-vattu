@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 declare var require: any
 var numeral = require('numeral');
 
@@ -14,6 +15,7 @@ var numeral = require('numeral');
   templateUrl: './taodonhang.component.html',
   styleUrls: ['./taodonhang.component.css']
 })
+
 export class TaodonhangComponent implements OnInit {
   formProduct: FormGroup;
   items: FormArray;
@@ -26,6 +28,7 @@ export class TaodonhangComponent implements OnInit {
   public model: any;
   removeList: any
   removeItem: any[]
+  startDate: NgbDateStruct;
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
@@ -33,7 +36,9 @@ export class TaodonhangComponent implements OnInit {
     private router: Router,
     private currencyPipe: CurrencyPipe
   ) {
-    this.removeItem = []
+    const today = new Date()
+    this.removeItem = [];
+    this.startDate = new NgbDate(today.getFullYear(),today.getMonth() + 1,today.getDate());
   }
 
   ngOnInit() {
@@ -55,6 +60,7 @@ export class TaodonhangComponent implements OnInit {
       items: this.formBuilder.array([this.createProduct()]),
       customer_description: [''],
       customer_phone: ['', requiredInput],
+      start_date: ['', requiredInput],
       total: ['']
     })
   }
@@ -65,25 +71,28 @@ export class TaodonhangComponent implements OnInit {
         error => () => {
         },
         () => {
-          this.listProduction.list.forEach((element, index) => {
-            this.detailOrder.items.forEach((element1, i) => {
-              if (element1.production_id == element._id) {
-                this.addProduct()
-                this.formatterProduct(element1)
-                element1.name = element.name;
-              }
-             setTimeout(() => {
-              this.t.controls[i].get('dongia').setValue(numeral(element1.dongia).format('0,0'))
-              this.t.controls[i].get('thanhtien').setValue(numeral(element1.thanhtien).format('0,0'))
-             }, 50);
+          if(this.listProduction.list && this.listProduction.list.length > 0) {
+            this.listProduction.list.forEach((element, index) => {
+              this.detailOrder.items.forEach((element1, i) => {
+                if (element1.production_id == element._id) {
+                  this.addProduct()
+                  this.formatterProduct(element1)
+                  element1.name = element.name;
+                }
+               setTimeout(() => {
+                this.t.controls[i].get('dongia').setValue(numeral(element1.dongia).format('0,0'))
+                this.t.controls[i].get('thanhtien').setValue(numeral(element1.thanhtien).format('0,0'))
+               }, 50);
+              });
             });
-          });
-
+          }
           if (this.detailOrder.items.length > 0 && (this.items && this.items.length > 1)) {
             this.items.removeAt(this.detailOrder.items.length - 1)
           }
+          const today = new Date(this.detailOrder.start_date);
           this.formatter(this.detailOrder)
           this.formProduct.patchValue(this.detailOrder)
+          this.startDate = new NgbDate(today.getFullYear(),today.getMonth() + 1,today.getDate())
         });
 
   }
@@ -105,8 +114,12 @@ export class TaodonhangComponent implements OnInit {
     this.items = this.formProduct.get('items') as FormArray;
     this.items.push(this.createProduct())
   }
-
+  submited: boolean = false
   submitForm() {
+    this.submited = true
+    if(this.formProduct.invalid) {
+      return;
+    }
     let items = []
     let tongtien = 0;
     this.formProduct.value.items.forEach((element, i) => {
@@ -125,6 +138,7 @@ export class TaodonhangComponent implements OnInit {
       customer_address: this.formProduct.value.customer_address,
       customer_description: this.formProduct.value.customer_description,
       total: tongtien,
+      start_date: `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`,
     }
     let params = { ...paramCustomer, items: items }
     if (!this.order_id) {

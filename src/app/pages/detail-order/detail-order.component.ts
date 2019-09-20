@@ -34,14 +34,16 @@ getDetailOrderById(id) {
             error => () => {
             },
             () => {
-              this.listProduction.list.forEach(element => {
-                this.detailOrder.items.forEach(element1 => {
-                  if(element1.production_id == element._id) {
-                    element1.name = element.name;
-                  }
+              if(this.listProduction.list && this.listProduction.list.length > 0) {
+                this.listProduction.list.forEach(element => {
+                  this.detailOrder.items.forEach(element1 => {
+                    if(element1.production_id == element._id) {
+                      element1.name = element.name;
+                    }
+                  });
+                  
                 });
-                
-              });
+              }
             });
       
   }
