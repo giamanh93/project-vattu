@@ -238,6 +238,25 @@ export class TaodonhangComponent implements OnInit {
     }
   }
 
+//   calculatorProduct(i, dongia, soluong) {
+//     this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
+//   if (dongia && soluong) {
+//     let total = numeral(dongia).value() * soluong;
+//     const giachualamtron = numeral(total).format('0,0').split(',');
+//     const giaPop = parseInt(giachualamtron.pop());
+//     let xulytotal = parseInt(giachualamtron[giachualamtron.length -1]);
+//     console.log(xulytotal)
+//     if(giaPop < 500) {
+//       console.log("giu nguyen")
+//     }else {
+//       console.log("tang len")
+//     }
+//     console.log(giaPop)
+//     console.log(numeral(total).format('0,0'))
+//     this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
+//   }
+// }
+
   formatter = (result) => result['name'] ? result['name'] : result;
 
   formatterProduct = (result: string) => result['name'] ? result['name'] : result;
