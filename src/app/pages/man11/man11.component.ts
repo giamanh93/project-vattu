@@ -11,13 +11,15 @@ declare var $:any
 export class Man11Component implements OnInit {
   listOrders: any;
   listProduction: any;
-  hideMenuTopLeft: any
+  hideMenuTopLeft: any;
+  tongtien: number;
   constructor(
     private router: Router,
     private meta: Meta,
     private titleService: Title,
     private dataService: DataService
-    ) { }
+    ) {
+     }
 
   ngOnInit() {
     this.getListProduction();
@@ -25,13 +27,14 @@ export class Man11Component implements OnInit {
   }
 
   getListOrder(key) {
+    this.tongtien = 0;
     this.dataService
       .listOrder<any[]>(key)
       .subscribe((data: any[]) => this.listOrders = data,
         error => () => {
         },
         () => {
-          if(this.listOrders && this.listOrders.length > 0) {
+          if(this.listOrders.list && this.listOrders.list.length > 0) {
             this.listOrders.list.forEach(element => {
               element.items.forEach(item => {
                 this.listProduction.list.forEach(product => {
@@ -40,6 +43,7 @@ export class Man11Component implements OnInit {
                   }
                 });
               });
+              this.tongtien += parseInt(element.total)
             });
           }
         });
