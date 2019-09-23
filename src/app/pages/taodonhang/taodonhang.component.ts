@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { __await } from 'tslib';
 declare var require: any
 var numeral = require('numeral');
 
@@ -104,7 +105,7 @@ export class TaodonhangComponent implements OnInit {
       name: ['', requiredInput],
       dongia: ['', requiredInput],
       soluong: ['', requiredInput],
-      thanhtien: ['']
+      thanhtien: ['', requiredInput]
     })
   }
   get f() { return this.formProduct.controls };
@@ -230,32 +231,41 @@ export class TaodonhangComponent implements OnInit {
     }
   }
 
-  calculatorProduct(i, dongia, soluong) {
-      this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
-    if (dongia && soluong) {
-      let total = numeral(dongia).value() * soluong;
-      this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
+  // calculatorProduct(i, dongia, soluong) {
+  //     this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
+  //   if (dongia && soluong) {
+  //     let total = numeral(dongia).value() * soluong;
+  //     this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
+  //   }
+  // }
+   
+  async roundTheAmount(total) {
+    let giachualamtron = numeral(total).format('0,0').split(',');
+    let arrayLasts = giachualamtron.splice(-2);
+    const giaPop = parseInt(arrayLasts.pop());
+    let xulytotal = parseInt(arrayLasts[0]);
+    if(giaPop < 500) {
+      return await [...giachualamtron, xulytotal, '000']
+    }else {
+      return await [...giachualamtron, xulytotal + 1, '000']
     }
   }
 
-//   calculatorProduct(i, dongia, soluong) {
-//     this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
-//   if (dongia && soluong) {
-//     let total = numeral(dongia).value() * soluong;
-//     const giachualamtron = numeral(total).format('0,0').split(',');
-//     const giaPop = parseInt(giachualamtron.pop());
-//     let xulytotal = parseInt(giachualamtron[giachualamtron.length -1]);
-//     console.log(xulytotal)
-//     if(giaPop < 500) {
-//       console.log("giu nguyen")
-//     }else {
-//       console.log("tang len")
-//     }
-//     console.log(giaPop)
-//     console.log(numeral(total).format('0,0'))
-//     this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
-//   }
-// }
+  calculatorProduct(i, dongia, soluong) { 
+    let tongtien = ''
+    this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
+  if (dongia && soluong > 0) {
+    let total = numeral(dongia).value() * soluong;
+    console.log("chua lam tron:", total)
+    this.roundTheAmount(total).then(res => {
+      let dataArr = res.map(String)
+      for(let i = 0; i< dataArr.length; i++) {
+        tongtien += dataArr[i]
+      }
+      this.t.controls[i].get('thanhtien').setValue(numeral(tongtien).format('0,0'))
+    })
+  }
+}
 
   formatter = (result) => result['name'] ? result['name'] : result;
 
