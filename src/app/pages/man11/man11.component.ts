@@ -35,7 +35,7 @@ export class Man11Component implements OnInit {
         },
         () => {
           console.log()
-          if(this.listOrders.list && this.listOrders.list.length > 0) {
+          if(this.listOrders && this.listOrders.list.length > 0) {
             this.listOrders.list.forEach(element => {
               element.items.forEach(item => {
                 this.listProduction.list.forEach(product => {
