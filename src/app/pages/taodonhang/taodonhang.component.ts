@@ -243,11 +243,16 @@ export class TaodonhangComponent implements OnInit {
     let giachualamtron = numeral(total).format('0,0').split(',');
     let arrayLasts = giachualamtron.splice(-2);
     const giaPop = parseInt(arrayLasts.pop());
-    let xulytotal = parseInt(arrayLasts[0]);
     if(giaPop < 500) {
+    let xulytotal = arrayLasts[0];
       return await [...giachualamtron, xulytotal, '000']
     }else {
-      return await [...giachualamtron, xulytotal + 1, '000']
+      let xulytotal = arrayLasts[0].split('');
+      if(xulytotal[0] == 0) {
+        return await [...giachualamtron,`0${parseInt(arrayLasts[0]) + 1}`, '000']
+      }else {
+        return await [...giachualamtron, parseInt(arrayLasts[0]) + 1, '000']
+      }
     }
   }
 
@@ -258,6 +263,7 @@ export class TaodonhangComponent implements OnInit {
     let total = numeral(dongia).value() * soluong;
     console.log("chua lam tron:", total)
     this.roundTheAmount(total).then(res => {
+      console.log(res)
       let dataArr = res.map(String)
       for(let i = 0; i< dataArr.length; i++) {
         tongtien += dataArr[i]
