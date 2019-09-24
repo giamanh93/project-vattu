@@ -22,6 +22,7 @@ import { DetailOrderComponent } from './pages/detail-order/detail-order.componen
 import { CurrencyDirective } from './core/directive/currency.directive';
 import { CurrencyPipe } from '@angular/common';
 import { AuthInterceptor } from './core/helpers/authInterceptor';
+import { LoginAuthGuard } from './core/services/login-auth.guard';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { AuthInterceptor } from './core/helpers/authInterceptor';
     HttpClientModule,
   ],
   entryComponents: [ModalComponent],
-  providers: [Configuration, CurrencyPipe,
+  providers: [Configuration, CurrencyPipe, LoginAuthGuard,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     },

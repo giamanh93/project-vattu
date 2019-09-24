@@ -1,4 +1,4 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpHeaderResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/internal/operators';
@@ -13,10 +13,13 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((err, caught: Observable<HttpEvent<any>>) => {
+          console.log("dddd")
           if (err instanceof HttpErrorResponse && err.status == 401) {
             // this.router.navigate(['login'], { queryParams: { returnUrl: req.url } });
             this.router.navigate(['/login']);
             return of(err as any);
+          }else if(err instanceof HttpHeaderResponse && err.status == 200) {
+            console.log("err",err)
           }
           throw err;
         })

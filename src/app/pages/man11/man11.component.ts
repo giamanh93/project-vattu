@@ -34,6 +34,7 @@ export class Man11Component implements OnInit {
         error => () => {
         },
         () => {
+          console.log()
           if(this.listOrders.list && this.listOrders.list.length > 0) {
             this.listOrders.list.forEach(element => {
               element.items.forEach(item => {

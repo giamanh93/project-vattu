@@ -6,16 +6,18 @@ import { TaodonhangComponent } from './pages/taodonhang/taodonhang.component';
 import { CustomerInfoComponent } from './pages/customer-info/customer-info.component';
 import { TaosanphamComponent } from './pages/taosanpham/taosanpham.component';
 import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
+import { LoginAuthGuard } from './core/services/login-auth.guard';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'login',
+    canActivate: [LoginAuthGuard],
     component: LoginComponent
   },
   {
