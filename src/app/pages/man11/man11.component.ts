@@ -13,30 +13,35 @@ export class Man11Component implements OnInit {
   listProduction: any;
   hideMenuTopLeft: any;
   tongtien: number;
+  page: any
   constructor(
     private router: Router,
     private meta: Meta,
     private titleService: Title,
     private dataService: DataService
     ) {
+      this.page = 1
      }
 
   ngOnInit() {
     this.getListProduction();
-      this.getListOrder(null);
+      this.getListOrder(null, this.page);
   }
-
-  getListOrder(key) {
+  loadPage(event) {
+    this.getListOrder(null, event);
+    console.log("event",event)
+  }
+  getListOrder(key, pages) {
     this.tongtien = 0;
     this.dataService
-      .listOrder<any[]>(key)
-      .subscribe((data: any[]) => this.listOrders = data,
+      .listOrder<any[]>(key, pages)
+      .subscribe((data: any) => this.listOrders = data.list,
         error => () => {
         },
         () => {
           console.log()
-          if(this.listOrders && this.listOrders.list.length > 0) {
-            this.listOrders.list.forEach(element => {
+          if(this.listOrders && this.listOrders.lists.length > 0) {
+            this.listOrders.lists.forEach(element => {
               element.items.forEach(item => {
                 this.listProduction.list.forEach(product => {
                   if(item.production_id === product._id) {
@@ -44,7 +49,8 @@ export class Man11Component implements OnInit {
                   }
                 });
               });
-              this.tongtien += parseInt(element.total)
+              // this.tongtien += parseInt(element.total)
+              this.tongtien = this.listOrders.total;
             });
           }
         });
@@ -61,6 +67,6 @@ export class Man11Component implements OnInit {
   }
   onChangeValueText(event) {
     const key = event.target.value
-    this.getListOrder(key)
+    this.getListOrder(key, this.page)
   }
 }
