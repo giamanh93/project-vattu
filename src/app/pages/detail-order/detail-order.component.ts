@@ -11,8 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DetailOrderComponent implements OnInit {
   order_id: string;
-  detailOrder: any
-  listProduction: any
+  detailOrder: any;
+  listProduction: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private dataService: DataService,
@@ -22,40 +22,39 @@ export class DetailOrderComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(res => {
-      this.order_id= res.order_id
-      this.getListProduction()
-      this.getDetailOrderById(this.order_id)
+      this.order_id = res.order_id;
+      this.getListProduction();
+      this.getDetailOrderById(this.order_id);
     })
   }
-getDetailOrderById(id) {
+  getDetailOrderById(id) {
     this.dataService
-            .infoOrder<any[]>(id)
-            .subscribe((data: any) => this.detailOrder = data.info,
-            error => () => {
-            },
-            () => {
-              if(this.listProduction.list && this.listProduction.list.length > 0) {
-                this.listProduction.list.forEach(element => {
-                  this.detailOrder.items.forEach(element1 => {
-                    if(element1.production_id == element._id) {
-                      element1.name = element.name;
-                    }
-                  });
-                  
-                });
-              }
+      .infoOrder<any[]>(id)
+      .subscribe((data: any) => this.detailOrder = data.info,
+        error => () => {
+        },
+        () => {
+          if (this.listProduction.list && this.listProduction.list.length > 0) {
+            this.listProduction.list.forEach(element => {
+              this.detailOrder.items.forEach(element1 => {
+                if (element1.production_id == element._id) {
+                  element1.name = element.name;
+                }
+              });
             });
-      
+          }
+        });
+
   }
   getListProduction() {
     this.dataService
-            .listProduction<any[]>()
-            .subscribe((data: any) => this.listProduction = data,
-            error => () => {
-            },
-            () => {
-            });
-      
+      .listProduction<any[]>()
+      .subscribe((data: any) => this.listProduction = data,
+        error => () => {
+        },
+        () => {
+        });
+
   }
   removeOrder(order) {
     const modalRef = this.modalService.open(ModalComponent);
@@ -65,21 +64,21 @@ getDetailOrderById(id) {
     modalRef.componentInstance.submit.subscribe((receivedEntry) => {
       order.items.forEach(item => {
         this.dataService
-            .deleteItems<any[]>(item._id)
-            .then((data: any) => {
-              console.log("delete oke Item", data)
-            });
+          .deleteItems<any[]>(item._id)
+          .then((data: any) => {
+            console.log("delete oke Item", data);
+          });
       });
       this.dataService
-            .deleteOrder<any[]>(order._id)
-            .subscribe((data: any) => console.log("Delete order oke"),
-            error => () => {
-            },
-            () => {
-              this.router.navigate(['/home'])
-            });
+        .deleteOrder<any[]>(order._id)
+        .subscribe((data: any) => console.log("Delete order oke"),
+          error => () => {
+          },
+          () => {
+            this.router.navigate(['/home']);
+          });
 
     })
-    
+
   }
 }

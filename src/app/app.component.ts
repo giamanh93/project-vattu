@@ -17,18 +17,6 @@ export class AppComponent {
       this.hideMenuTopLeft = true
   }
   ngOnInit() {
-    this.hideMenuTopLeft = localStorage.getItem("hideMenuTopLeft")
-
-    // localStorage.getItem()
-    // this.dataService.infoUser().subscribe((res: any) => {
-    //   console.log(res)
-    //   if(res.error == 0) {
-    //     console.log("dddddddd")
-    //     this.hideMenuTopLeft = false
-    //   }else {
-    //     this.hideMenuTopLeft = true
-    //     this.router.navigate(["/login"])
-    //   }
-    // })
+    this.hideMenuTopLeft = localStorage.getItem("hideMenuTopLeft");
   }
 }

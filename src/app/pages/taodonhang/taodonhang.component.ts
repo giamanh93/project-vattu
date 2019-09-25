@@ -27,8 +27,8 @@ export class TaodonhangComponent implements OnInit {
   order_id: string;
   detailOrder: any;
   public model: any;
-  removeList: any
-  removeItem: any[]
+  removeList: any;
+  removeItem: any[];
   startDate: NgbDateStruct;
   constructor(
     private formBuilder: FormBuilder,
@@ -37,9 +37,9 @@ export class TaodonhangComponent implements OnInit {
     private router: Router,
     private currencyPipe: CurrencyPipe
   ) {
-    const today = new Date()
+    const today = new Date();
     this.removeItem = [];
-    this.startDate = new NgbDate(today.getFullYear(),today.getMonth() + 1,today.getDate());
+    this.startDate = new NgbDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
   }
 
   ngOnInit() {
@@ -47,11 +47,11 @@ export class TaodonhangComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(res => {
       this.order_id = res.order_id;
       if (this.order_id) {
-        this.getDetailOrderById(this.order_id)
+        this.getDetailOrderById(this.order_id);
       }
     })
     this.getListCustomer();
-    this.buiformOrder()
+    this.buiformOrder();
   }
   buiformOrder() {
     this.formProduct = this.formBuilder.group({
@@ -72,18 +72,18 @@ export class TaodonhangComponent implements OnInit {
         error => () => {
         },
         () => {
-          if(this.listProduction.list && this.listProduction.list.length > 0) {
+          if (this.listProduction.list && this.listProduction.list.length > 0) {
             this.listProduction.list.forEach((element, index) => {
               this.detailOrder.items.forEach((element1, i) => {
                 if (element1.production_id == element._id) {
-                  this.addProduct()
-                  this.formatterProduct(element1)
+                  this.addProduct();
+                  this.formatterProduct(element1);
                   element1.name = element.name;
                 }
-               setTimeout(() => {
-                this.t.controls[i].get('dongia').setValue(numeral(element1.dongia).format('0,0'))
-                this.t.controls[i].get('thanhtien').setValue(numeral(element1.thanhtien).format('0,0'))
-               }, 50);
+                setTimeout(() => {
+                  this.t.controls[i].get('dongia').setValue(numeral(element1.dongia).format('0,0'));
+                  this.t.controls[i].get('thanhtien').setValue(numeral(element1.thanhtien).format('0,0'));
+                }, 50);
               });
             });
           }
@@ -91,9 +91,9 @@ export class TaodonhangComponent implements OnInit {
             this.items.removeAt(this.detailOrder.items.length - 1)
           }
           const today = new Date(this.detailOrder.start_date);
-          this.formatter(this.detailOrder)
-          this.formProduct.patchValue(this.detailOrder)
-          this.startDate = new NgbDate(today.getFullYear(),today.getMonth() + 1,today.getDate())
+          this.formatter(this.detailOrder);
+          this.formProduct.patchValue(this.detailOrder);
+          this.startDate = new NgbDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
         });
 
   }
@@ -113,15 +113,15 @@ export class TaodonhangComponent implements OnInit {
 
   addProduct() {
     this.items = this.formProduct.get('items') as FormArray;
-    this.items.push(this.createProduct())
+    this.items.push(this.createProduct());
   }
-  submited: boolean = false
+  submited: boolean = false;
   submitForm() {
-    this.submited = true
-    if(this.formProduct.invalid) {
+    this.submited = true;
+    if (this.formProduct.invalid) {
       return;
     }
-    let items = []
+    let items = [];
     let tongtien = 0;
     this.formProduct.value.items.forEach((element, i) => {
       items.push({
@@ -141,16 +141,16 @@ export class TaodonhangComponent implements OnInit {
       total: tongtien,
       start_date: `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`,
     }
-    let params = { ...paramCustomer, items: items }
+    let params = { ...paramCustomer, items: items };
     if (!this.order_id) {
       this.dataService
         .addOrder<any[]>(params)
         .subscribe((data: any[]) => console.log("Oke"),
           error => () => {
-            console.log(error)
+            console.log(error);
           },
           () => {
-            this.router.navigate(['/home'])
+            this.router.navigate(['/home']);
             this.formProduct.reset();
           });
     } else {
@@ -169,7 +169,7 @@ export class TaodonhangComponent implements OnInit {
               this.dataService
                 .deleteItems<any[]>(id)
                 .then((data: any[]) => {
-                  console.log("delete")
+                  console.log("delete");
                 });
             })
           } else {
@@ -178,7 +178,7 @@ export class TaodonhangComponent implements OnInit {
               .updateItem<any[]>(e._id, param_update)
               .subscribe((data: any[]) => console.log("Update"),
                 error => () => {
-                  console.log(error)
+                  console.log(error);
                 },
                 () => {
                 });
@@ -191,7 +191,7 @@ export class TaodonhangComponent implements OnInit {
                 .deleteItem<any[]>(id)
                 .subscribe((data: any[]) => console.log("Delete"),
                   error => () => {
-                    console.log(error)
+                    console.log(error);
                   },
                   () => {
                   });
@@ -202,10 +202,10 @@ export class TaodonhangComponent implements OnInit {
             .addItem<any[]>(param_update)
             .subscribe((data: any[]) => console.log("Create Item"),
               error => () => {
-                console.log(error)
+                console.log(error);
               },
               () => {
-                
+
               });
         }
       });
@@ -213,19 +213,19 @@ export class TaodonhangComponent implements OnInit {
         .updateOrder<any[]>(this.order_id, paramCustomer)
         .subscribe((data: any[]) => console.log("update order"),
           error => () => {
-            console.log(error)
+            console.log(error);
           },
           () => {
-            this.router.navigate(['/home'])
+            this.router.navigate(['/home']);
           });
     }
   }
-  
+
   deleteProduct(i, id) {
     if (this.items && this.items.length > 1) {
-      this.items.removeAt(i)
+      this.items.removeAt(i);
       if (id) {
-        this.removeItem.push(id)
+        this.removeItem.push(id);
       }
 
     }
@@ -238,54 +238,53 @@ export class TaodonhangComponent implements OnInit {
   //     this.t.controls[i].get('thanhtien').setValue(numeral(total).format('0,0'))
   //   }
   // }
-   
+
   async roundTheAmount(total) {
     let giachualamtron = numeral(total).format('0,0').split(',');
     let arrayLasts = giachualamtron.splice(-2);
     const giaPop = parseInt(arrayLasts.pop());
-    if(giaPop < 500) {
-    let xulytotal = arrayLasts[0];
-      return await [...giachualamtron, xulytotal, '000']
-    }else {
+    if (giaPop < 500) {
+      let xulytotal = arrayLasts[0];
+      return await [...giachualamtron, xulytotal, '000'];
+    } else {
       let xulytotal = arrayLasts[0].split('');
-      if(xulytotal[0] == 0) {
-        return await [...giachualamtron,`0${parseInt(arrayLasts[0]) + 1}`, '000']
-      }else {
-        return await [...giachualamtron, parseInt(arrayLasts[0]) + 1, '000']
+      if (xulytotal[0] == 0) {
+        return await [...giachualamtron, `0${parseInt(arrayLasts[0]) + 1}`, '000'];
+      } else {
+        return await [...giachualamtron, parseInt(arrayLasts[0]) + 1, '000'];
       }
     }
   }
 
-  calculatorProduct(i, dongia, soluong) { 
+  calculatorProduct(i, dongia, soluong) {
     let tongtien = ''
     this.t.controls[i].get('dongia').setValue(numeral(dongia).format('0,0'))
-  if (dongia && soluong > 0) {
-    let total = numeral(dongia).value() * soluong;
-    console.log("chua lam tron:", total)
-    this.roundTheAmount(total).then(res => {
-      console.log(res)
-      let dataArr = res.map(String)
-      for(let i = 0; i< dataArr.length; i++) {
-        tongtien += dataArr[i]
-      }
-      this.t.controls[i].get('thanhtien').setValue(numeral(tongtien).format('0,0'))
-    })
+    if (dongia && soluong > 0) {
+      let total = numeral(dongia).value() * soluong;
+      console.log("chua lam tron:", total);
+      this.roundTheAmount(total).then(res => {
+        let dataArr = res.map(String);
+        for (let i = 0; i < dataArr.length; i++) {
+          tongtien += dataArr[i];
+        }
+        this.t.controls[i].get('thanhtien').setValue(numeral(tongtien).format('0,0'));
+      })
+    }
   }
-}
 
   formatter = (result) => result['name'] ? result['name'] : result;
 
   formatterProduct = (result: string) => result['name'] ? result['name'] : result;
 
   selectedItem(result) {
-    this.resultSelectCustomer = result
-    this.f.customer_address.setValue(result.item.address)
-    this.f.customer_name.setValue(result.item.name)
-    this.f.customer_phone.setValue(result.item.phone)
+    this.resultSelectCustomer = result;
+    this.f.customer_address.setValue(result.item.address);
+    this.f.customer_name.setValue(result.item.name);
+    this.f.customer_phone.setValue(result.item.phone);
   };
 
   selectedProduct(result, i) {
-    this.resultSelectProduct = result
+    this.resultSelectProduct = result;
   }
 
   search = (text$: Observable<string>) =>

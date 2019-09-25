@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
   onSubmit() {
    this.dataService.login(this.formLogin.value).subscribe((res: any) => {
      if(res.error  == 0) {
-        this.router.navigate(["/home"])
+        this.router.navigate(["/home"]);
      }else {
-       localStorage.removeItem('hideMenuTopLeft')
+       localStorage.removeItem('hideMenuTopLeft');
      }
    })
   }

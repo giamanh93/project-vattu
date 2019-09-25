@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
-import { FormBuilder, FormGroup} from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { DataService } from 'src/app/core/services';
 @Component({
   selector: 'app-customer-info',
@@ -10,13 +10,13 @@ import { DataService } from 'src/app/core/services';
 })
 export class CustomerInfoComponent implements OnInit {
   formCustomer: FormGroup;
-  listCustomers: any
-  @ViewChild('modal', {static: false}) modal: any
+  listCustomers: any;
+  @ViewChild('modal', { static: false }) modal: any
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private dataService: DataService,
 
-) { }
+  ) { }
 
   ngOnInit() {
     this.formCustomer = this.formBuilder.group({
@@ -29,20 +29,20 @@ export class CustomerInfoComponent implements OnInit {
   }
   getListCustomer() {
     this.dataService
-            .list<any[]>()
-            .subscribe((data: any[]) => this.listCustomers = data,
-            error => () => {
-            },
-            () => {
-            });
+      .list<any[]>()
+      .subscribe((data: any[]) => this.listCustomers = data,
+        error => () => {
+        },
+        () => {
+        });
   }
-  
-  showModalCreateCustomer(i,id) {
+
+  showModalCreateCustomer(i, id) {
     this.formCustomer.reset();
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.name = 'Tạo Khách Hàng';
     modalRef.componentInstance.form = this.formCustomer;
-    if(id) {
+    if (id) {
       modalRef.componentInstance.dataEdit = this.listCustomers.list[i];
     }
     modalRef.componentInstance.arrForm = [{
@@ -66,32 +66,31 @@ export class CustomerInfoComponent implements OnInit {
       key: 'textarea'
     }];
     modalRef.componentInstance.save.subscribe((receivedEntry) => {
-      // console.log(receivedEntry);
-      if(id) {
+      if (id) {
         this.dataService
-            .update<any[]>(id, receivedEntry)
-            .subscribe((data: any[]) => console.log("Oke"),
+          .update<any[]>(id, receivedEntry)
+          .subscribe((data: any[]) => console.log("Oke"),
             error => () => {
-                console.log(error)
+              console.log(error)
             },
             () => {
               this.getListCustomer();
               this.formCustomer.reset();
             });
-      
-      }else {
+
+      } else {
         this.dataService
-            .add<any[]>(receivedEntry)
-            .subscribe((data: any[]) => console.log("Oke"),
+          .add<any[]>(receivedEntry)
+          .subscribe((data: any[]) => console.log("Oke"),
             error => () => {
-                console.log(error)
+              console.log(error)
             },
             () => {
               this.getListCustomer();
               this.formCustomer.reset();
             });
       }
-      })
+    })
   }
   onDelete(id) {
     const modalRef = this.modalService.open(ModalComponent);
@@ -100,16 +99,16 @@ export class CustomerInfoComponent implements OnInit {
     modalRef.componentInstance.form = null;
     modalRef.componentInstance.submit.subscribe((receivedEntry) => {
       this.dataService
-      .delete<any[]>(id)
-      .subscribe((data: any[]) => console.log("DELETE Oke"),
-      error => () => {
-          console.log(error)
-      },
-      () => {
-        this.getListCustomer();
-        // this.formCustomer.reset();
-      });
+        .delete<any[]>(id)
+        .subscribe((data: any[]) => console.log("DELETE Oke"),
+          error => () => {
+            console.log(error)
+          },
+          () => {
+            this.getListCustomer();
+            // this.formCustomer.reset();
+          });
     })
-    
+
   }
 }

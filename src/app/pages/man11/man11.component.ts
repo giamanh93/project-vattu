@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DataService } from 'src/app/core/services';
-declare var $:any
+declare var $: any
 @Component({
   selector: 'app-man11',
   templateUrl: './man11.component.html',
@@ -13,24 +13,25 @@ export class Man11Component implements OnInit {
   listProduction: any;
   hideMenuTopLeft: any;
   tongtien: number;
-  page: any
+  page: any;
   constructor(
     private router: Router,
     private meta: Meta,
     private titleService: Title,
     private dataService: DataService
-    ) {
-      this.page = 1
-     }
+  ) {
+    this.page = 1;
+  }
 
   ngOnInit() {
     this.getListProduction();
-      this.getListOrder(null, this.page);
+    this.getListOrder(null, this.page);
   }
+
   loadPage(event) {
     this.getListOrder(null, event);
-    console.log("event",event)
   }
+
   getListOrder(key, pages) {
     this.tongtien = 0;
     this.dataService
@@ -39,34 +40,33 @@ export class Man11Component implements OnInit {
         error => () => {
         },
         () => {
-          console.log()
-          if(this.listOrders && this.listOrders.lists.length > 0) {
+          if (this.listOrders && this.listOrders.lists.length > 0) {
             this.listOrders.lists.forEach(element => {
               element.items.forEach(item => {
                 this.listProduction.list.forEach(product => {
-                  if(item.production_id === product._id) {
-                    item.name =product.name
+                  if (item.production_id === product._id) {
+                    item.name = product.name;
                   }
                 });
               });
-              this.tongtien += parseInt(element.total)
-              // this.tongtien = this.listOrders.total;
+              this.tongtien += parseInt(element.total);
             });
           }
         });
   }
+
   getListProduction() {
     this.dataService
-            .listProduction<any[]>()
-            .subscribe((data: any[]) => this.listProduction = data,
-            error => () => {
-            },
-            () => {
-            });
-      
+      .listProduction<any[]>()
+      .subscribe((data: any[]) => this.listProduction = data,
+        error => () => {
+        },
+        () => {
+        });
+
   }
   onChangeValueText(event) {
-    const key = event.target.value
-    this.getListOrder(key, this.page)
+    const key = event.target.value;
+    this.getListOrder(key, this.page);
   }
 }

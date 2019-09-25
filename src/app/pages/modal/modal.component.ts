@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {FormGroup} from '@angular/forms'
+import { FormGroup } from '@angular/forms'
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -17,10 +17,10 @@ export class ModalComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public activeModal: NgbActiveModal) { }
   ngOnChanges() {
-    
+
   }
   ngOnInit() {
-    if(this.dataEdit) {
+    if (this.dataEdit) {
       this.form.patchValue(this.dataEdit);
     }
   }
@@ -29,10 +29,10 @@ export class ModalComponent implements OnInit {
   // }
   onSave() {
     this.save.emit(this.form.value);
-    this.activeModal.close()
+    this.activeModal.close();
   }
   delete() {
-    this.submit.emit()
-    this.activeModal.close()
+    this.submit.emit();
+    this.activeModal.close();
   }
 }

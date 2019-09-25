@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class TaosanphamComponent implements OnInit {
   formProduction: FormGroup;
   listProduction: any;
-  page:any = 3
+  page: any = 3
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -29,21 +29,21 @@ export class TaosanphamComponent implements OnInit {
   }
   getListProduction() {
     this.dataService
-            .listProduction<any[]>()
-            .subscribe((data: any[]) => this.listProduction = data,
-            error => () => {
-            },
-            () => {
-                
-            });
-      
+      .listProduction<any[]>()
+      .subscribe((data: any[]) => this.listProduction = data,
+        error => () => {
+        },
+        () => {
+
+        });
+
   }
   showModalCreateProduction(i, id) {
     this.formProduction.reset();
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.name = 'Tạo Khách Hàng';
     modalRef.componentInstance.form = this.formProduction;
-    if(id) {
+    if (id) {
       modalRef.componentInstance.dataEdit = this.listProduction.list[i];
     }
     modalRef.componentInstance.arrForm = [{
@@ -58,31 +58,31 @@ export class TaosanphamComponent implements OnInit {
     },
     ];
     modalRef.componentInstance.save.subscribe((receivedEntry) => {
-      if(id) {
+      if (id) {
         this.dataService
-            .updateProduction<any[]>(id, receivedEntry)
-            .subscribe((data: any[]) => console.log("Oke"),
+          .updateProduction<any[]>(id, receivedEntry)
+          .subscribe((data: any[]) => console.log("Oke"),
             error => () => {
-                console.log(error)
+              console.log(error)
             },
             () => {
               this.getListProduction()
               this.formProduction.reset();
             });
-      
-      }else {
+
+      } else {
         this.dataService
-            .addProduction<any[]>(receivedEntry)
-            .subscribe((data: any[]) => console.log("Oke"),
+          .addProduction<any[]>(receivedEntry)
+          .subscribe((data: any[]) => console.log("Oke"),
             error => () => {
-                console.log(error)
+              console.log(error)
             },
             () => {
               this.getListProduction()
               this.formProduction.reset();
             });
       }
-      })
+    })
   }
   onDelete(id) {
     const modalRef = this.modalService.open(ModalComponent);
@@ -91,16 +91,16 @@ export class TaosanphamComponent implements OnInit {
     modalRef.componentInstance.form = null;
     modalRef.componentInstance.submit.subscribe((receivedEntry) => {
       this.dataService
-      .deleteProduction<any[]>(id)
-      .subscribe((data: any[]) => console.log("DELETE Oke"),
-      error => () => {
-          console.log(error)
-      },
-      () => {
-        this.getListProduction();
-        // this.formCustomer.reset();
-      });
+        .deleteProduction<any[]>(id)
+        .subscribe((data: any[]) => console.log("DELETE Oke"),
+          error => () => {
+            console.log(error)
+          },
+          () => {
+            this.getListProduction();
+            // this.formCustomer.reset();
+          });
     })
-    
+
   }
 }
