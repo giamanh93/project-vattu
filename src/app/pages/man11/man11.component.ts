@@ -49,8 +49,8 @@ export class Man11Component implements OnInit {
                   }
                 });
               });
-              // this.tongtien += parseInt(element.total)
-              this.tongtien = this.listOrders.total;
+              this.tongtien += parseInt(element.total)
+              // this.tongtien = this.listOrders.total;
             });
           }
         });

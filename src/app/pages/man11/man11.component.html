@@ -16,7 +16,10 @@
     </div>
     <section>
       <div class="pt-2 pb-2 pr-3 pl-3  bg-gray-light mb-2">
-        <strong>Tổng tiền: {{tongtien | number}}VND</strong>
+        <strong>Tổng tiền: {{listOrders?.total | number}}VND</strong>
+      </div>
+      <div class="pt-2 pb-2 pr-3 pl-3  bg-gray-light mb-2">
+        <strong>Tổng tiền trên một trang: {{tongtien| number}}VND</strong>
       </div>
     </section>
     <table class="table">
