@@ -23,6 +23,7 @@ import { CurrencyDirective } from './core/directive/currency.directive';
 import { CurrencyPipe } from '@angular/common';
 import { AuthInterceptor } from './core/helpers/authInterceptor';
 import { LoginAuthGuard } from './core/services/login-auth.guard';
+import { ExportFileService } from './core/export-file.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { LoginAuthGuard } from './core/services/login-auth.guard';
   providers: [Configuration, CurrencyPipe, LoginAuthGuard,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
-    },
+    },ExportFileService
     ],
   bootstrap: [AppComponent]
 })
